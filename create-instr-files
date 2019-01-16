@@ -1,0 +1,11 @@
+printf "rmarkdown::render('challenge.Rmd', output_format='pdf_document')" | R --vanilla --quiet
+printf "rmarkdown::render('challenge.Rmd', clean=FALSE, run_pandoc=FALSE)" | R --vanilla --quiet
+pandoc +RTS -K512m -RTS challenge.utf8.md \
+  --to markdown_github+raw_tex+tex_math_dollars \
+  --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash \
+  --output temp \
+  --standalone 
+
+echo "# SQL Challenge\n" | cat - temp > README.md
+rm -rf temp challenge.utf8.md challenge.knit.md
+
